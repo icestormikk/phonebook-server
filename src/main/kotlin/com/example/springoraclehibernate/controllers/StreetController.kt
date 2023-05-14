@@ -23,8 +23,8 @@ class StreetController(
     val streetServiceImpl: StreetServiceImpl
 ) {
     @GetMapping
-    fun getAllStreets(): ResponseEntity<List<Street>> {
-        return ResponseEntity(streetServiceImpl.getAllStreets(), HttpStatus.OK)
+    fun getAllStreets(@RequestParam(required = false) withTitles: Boolean): ResponseEntity<List<Any>> {
+        return ResponseEntity(streetServiceImpl.getAllStreets(withTitles), HttpStatus.OK)
     }
 
     @GetMapping("/id")
@@ -56,8 +56,12 @@ class StreetController(
 
     @PostMapping
     fun addStreet(@RequestBody streetDTO: StreetDTO) : ResponseEntity<Street> {
-        val savedStreet = streetServiceImpl.addStreet(Street(title = streetDTO.title))
-        return ResponseEntity(savedStreet, HttpStatus.CREATED)
+        return try {
+            val savedStreet = streetServiceImpl.addStreet(streetDTO)
+            ResponseEntity(savedStreet, HttpStatus.CREATED)
+        } catch (_: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
     }
 
     @DeleteMapping

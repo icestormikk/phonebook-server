@@ -22,8 +22,12 @@ class AddressServiceImpl(
     @Autowired
     private val addressRepository: AddressRepository
 ) : AddressService {
-    override fun getAllAddresses(): List<Address> {
-        return addressRepository.findAll().toList()
+    override fun getAllAddresses(withTitles: Boolean): List<Any> {
+        return if (withTitles) {
+            addressRepository.findAllWithTitles()
+        } else {
+            addressRepository.findAll().toList()
+        }
     }
 
     override fun getAddressById(id: BigInteger): Address? {

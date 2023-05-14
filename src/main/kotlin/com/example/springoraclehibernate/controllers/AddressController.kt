@@ -24,20 +24,13 @@ class AddressController(
 ) {
     @GetMapping
     fun getAllAddresses(@RequestParam(required = false) withTitles: Boolean) : ResponseEntity<List<Any>> {
-        val addresses = addressServiceImpl.getAllAddresses()
-
-        println(addresses.map { it.toWithTitles() }.toList())
-
-        return ResponseEntity(
-            if (withTitles) addresses.map { it.toWithTitles() }.toList() else addresses,
-            HttpStatus.OK
-        )
+        return ResponseEntity(addressServiceImpl.getAllAddresses(withTitles), HttpStatus.OK)
     }
 
     @GetMapping("/id")
-    fun getAddressById(@RequestParam id: String) : ResponseEntity<Address> {
+    fun getAddressById(@RequestParam value: String) : ResponseEntity<Address> {
         val updatedId = try {
-            id.toBigInteger()
+            value.toBigInteger()
         } catch (_: NumberFormatException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }

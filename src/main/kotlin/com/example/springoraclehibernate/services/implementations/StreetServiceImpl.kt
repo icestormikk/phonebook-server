@@ -1,6 +1,8 @@
 package com.example.springoraclehibernate.services.implementations
 
 import com.example.springoraclehibernate.domain.address.Street
+import com.example.springoraclehibernate.domain.dto.StreetDTO
+import com.example.springoraclehibernate.repositories.CityRepository
 import com.example.springoraclehibernate.repositories.StreetRepository
 import com.example.springoraclehibernate.services.StreetService
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,11 +12,16 @@ import java.math.BigInteger
 @Service
 class StreetServiceImpl(
     @Autowired
-    val streetRepository: StreetRepository
+    private val cityRepository: CityRepository,
+    @Autowired
+    private val streetRepository: StreetRepository
 ) : StreetService {
-    override fun getAllStreets(): List<Street> {
-        val result = streetRepository.findAll()
-        return result.toList()
+    override fun getAllStreets(withTitles: Boolean): List<Any> {
+        return if (withTitles) {
+            streetRepository.findAllWithTitles()
+        } else {
+            streetRepository.findAll().toList()
+        }
     }
 
     override fun getStreetById(id: BigInteger): Street? {
@@ -35,8 +42,14 @@ class StreetServiceImpl(
         return street.get()
     }
 
-    override fun addStreet(street: Street) : Street {
-        return streetRepository.save(street)
+    override fun addStreet(streetDTO: StreetDTO) : Street {
+        val city = cityRepository.findById(streetDTO.cityID)
+
+        if (city.isEmpty) {
+            error("The city with id ${streetDTO.cityID} does not exist in the database!")
+        }
+
+        return streetRepository.save(Street(title = streetDTO.title, cityID = streetDTO.cityID))
     }
 
     override fun removeStreetById(id: BigInteger) {

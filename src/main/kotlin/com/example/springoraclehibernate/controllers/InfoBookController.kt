@@ -24,18 +24,13 @@ class InfoBookController(
 ) {
     @GetMapping
     fun getAllInfos(@RequestParam(required = false) withMoreInfo: Boolean) : ResponseEntity<List<Any>> {
-        val infos = infoBookServiceImpl.getAllInfos()
-
-        return ResponseEntity(
-            if (withMoreInfo) infos.map { it.toInfoBookWithTitles() } else infos,
-            HttpStatus.OK
-        )
+        return ResponseEntity(infoBookServiceImpl.getAllInfos(withMoreInfo), HttpStatus.OK)
     }
 
     @GetMapping("/id")
-    fun getInfoById(@RequestParam id: String) : ResponseEntity<InfoBook> {
+    fun getInfoById(@RequestParam value: String) : ResponseEntity<InfoBook> {
         val updatedId = try {
-            id.toBigInteger()
+            value.toBigInteger()
         } catch (_: NumberFormatException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -48,26 +43,9 @@ class InfoBookController(
         }
     }
 
-    @GetMapping("/email")
-    fun getInfosByEmail(@RequestParam email: String) : ResponseEntity<List<InfoBook>> {
-        return ResponseEntity(infoBookServiceImpl.getInfosByEmail(email), HttpStatus.OK)
-    }
-
     @GetMapping("/phone")
-    fun getInfosByPhone(@RequestParam phone: String) : ResponseEntity<List<InfoBook>> {
-        return ResponseEntity(infoBookServiceImpl.getInfosByPhoneNumber(phone), HttpStatus.OK)
-    }
-
-    @GetMapping("/isq")
-    fun getInfosByISQId(@RequestParam isq: String) : ResponseEntity<List<InfoBook>> {
-        val updatedISQ = try {
-            isq.toBigInteger()
-        } catch (_: NumberFormatException) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-
-        val infos = infoBookServiceImpl.getInfosByISQId(updatedISQ)
-        return ResponseEntity(infos, HttpStatus.OK)
+    fun getInfosByPhone(@RequestParam value: String) : ResponseEntity<List<InfoBook>> {
+        return ResponseEntity(infoBookServiceImpl.getInfosByPhoneNumber(value), HttpStatus.OK)
     }
 
     @PostMapping

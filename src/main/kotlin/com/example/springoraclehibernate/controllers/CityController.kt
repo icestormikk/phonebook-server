@@ -23,14 +23,14 @@ class CityController(
     private val cityServiceImpl: CityServiceImpl
 ) {
     @GetMapping
-    fun getAllCities() : ResponseEntity<List<City>> {
-        return ResponseEntity(cityServiceImpl.getAllCities(), HttpStatus.OK)
+    fun getAllCities(@RequestParam(required = false) withTitles: Boolean) : ResponseEntity<List<Any>> {
+        return ResponseEntity(cityServiceImpl.getAllCities(withTitles), HttpStatus.OK)
     }
 
     @GetMapping("/id")
-    fun getOneCityById(@RequestParam id: String) : ResponseEntity<City> {
+    fun getOneCityById(@RequestParam value: String) : ResponseEntity<City> {
         val updatedId = try {
-            id.toBigInteger()
+            value.toBigInteger()
         } catch (ex: NumberFormatException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -44,8 +44,8 @@ class CityController(
     }
 
     @GetMapping("/title")
-    fun getOneCityByTitle(@RequestParam title: String) : ResponseEntity<City> {
-        val city = cityServiceImpl.getCityByTitle(title)
+    fun getOneCityByTitle(@RequestParam value: String) : ResponseEntity<City> {
+        val city = cityServiceImpl.getCityByTitle(value)
 
         return if (city == null) {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -56,8 +56,12 @@ class CityController(
 
     @PostMapping
     fun addCity(@RequestBody cityDTO: CityDTO) : ResponseEntity<City> {
-        val savedEntity = cityServiceImpl.addCity(City(title = cityDTO.title))
-        return ResponseEntity(savedEntity, HttpStatus.OK)
+        return try {
+            val savedEntity = cityServiceImpl.addCity(cityDTO)
+            ResponseEntity(savedEntity, HttpStatus.OK)
+        } catch (_: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
     }
 
     @DeleteMapping

@@ -24,9 +24,11 @@ class FilesStorageServiceImpl : FilesStorageService {
         }
     }
 
-    override fun save(file: MultipartFile) {
-        try {
-            Files.copy(file.inputStream, root.resolve(file.originalFilename.toString()))
+    override fun save(file: MultipartFile) : String {
+        return try {
+            val filename = file.originalFilename.toString()
+            Files.copy(file.inputStream, root.resolve(filename))
+            filename
         } catch (ex: Exception) {
             if (ex is FileAlreadyExistsException) {
                 error("A file of that name already exists!")

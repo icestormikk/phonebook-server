@@ -28,9 +28,9 @@ class CategoryController(
     }
 
     @GetMapping("/id")
-    fun getCategoryById(@RequestParam id: String) : ResponseEntity<Category> {
+    fun getCategoryById(@RequestParam value: String) : ResponseEntity<Category> {
         val updatedId = try {
-            id.toBigInteger()
+            value.toBigInteger()
         } catch (_: NumberFormatException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -44,8 +44,8 @@ class CategoryController(
     }
 
     @GetMapping("/title")
-    fun getCategoryByTitle(@RequestParam title: String) : ResponseEntity<Category> {
-        val category = categoryServiceImpl.getCategoryByTitle(title)
+    fun getCategoryByTitle(@RequestParam value: String) : ResponseEntity<Category> {
+        val category = categoryServiceImpl.getCategoryByTitle(value)
         return if (category == null) {
             ResponseEntity(HttpStatus.NOT_FOUND)
         } else {

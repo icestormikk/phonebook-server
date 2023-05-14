@@ -25,14 +25,6 @@ data class InfoBook(
     var phoneNumber: String? = null,
 
     @get:Basic
-    @get:Column(name = "EMAIL", nullable = true)
-    var email: String? = null,
-
-    @get:Basic
-    @get:Column(name = "ISQ_ID", nullable = true)
-    var ISQID: java.math.BigInteger? = null,
-
-    @get:Basic
     @get:Column(name = "PERSON_ID", nullable = false, insertable = false, updatable = false)
     var personID: java.math.BigInteger? = null,
 
@@ -55,26 +47,4 @@ data class InfoBook(
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
     var refAddress: Address? = null,
-) {
-    fun toInfoBookWithTitles(): InfoBookWithTitles {
-        val initials = "${refPerson?.surname} ${refPerson?.name}" + (
-            if (refPerson?.patronymic != null) " ${refPerson?.patronymic}" else ""
-        )
-        val addressTitles = refAddress?.toWithTitles()
-        val address = "${addressTitles?.countryTitle}, г.${addressTitles?.cityTitle}, " +
-            "ул.${addressTitles?.streetTitle}, д.${addressTitles?.houseNumber}" + (
-            if (addressTitles?.flatNumber != null) ", кв.${addressTitles?.flatNumber}" else ""
-        )
-
-        return InfoBookWithTitles(
-            id = id,
-            phone = phoneNumber,
-            email = email,
-            ISQID = ISQID,
-            person = initials,
-            categoryTitle = refCategory?.title,
-            address = address,
-        )
-    }
-}
-
+)

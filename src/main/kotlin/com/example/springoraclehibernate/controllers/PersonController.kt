@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/persons")
@@ -28,36 +29,35 @@ class PersonController(
     }
 
     @GetMapping("/name")
-    fun getPersonsByName(@RequestParam name: String) : ResponseEntity<Person> {
-        val result = personServiceImpl.getPersonsByName(name)
-
-        return if (result == null) {
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        } else {
-            ResponseEntity(result, HttpStatus.OK)
-        }
+    fun getPersonsByName(@RequestParam value: String) : ResponseEntity<List<Person>> {
+        return ResponseEntity(personServiceImpl.getPersonsByName(value), HttpStatus.OK)
     }
 
     @GetMapping("/surname")
-    fun getPersonsBySurname(@RequestParam surname: String) : ResponseEntity<Person> {
-        val result = personServiceImpl.getPersonsBySurname(surname)
-
-        return if (result == null) {
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        } else {
-            ResponseEntity(result, HttpStatus.OK)
-        }
+    fun getPersonsBySurname(@RequestParam value: String) : ResponseEntity<List<Person>> {
+        return ResponseEntity(personServiceImpl.getPersonsBySurname(value), HttpStatus.OK)
     }
 
     @GetMapping("/patronymic")
-    fun getPersonsByPatronymic(@RequestParam patronymic: String) : ResponseEntity<Person> {
-        val result = personServiceImpl.getPersonsByPatronymic(patronymic)
+    fun getPersonsByPatronymic(@RequestParam value: String) : ResponseEntity<List<Person>> {
+        return ResponseEntity(personServiceImpl.getPersonsByPatronymic(value), HttpStatus.OK)
+    }
 
-        return if (result == null) {
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        } else {
-            ResponseEntity(result, HttpStatus.OK)
+    @GetMapping("/isq")
+    fun getPersonsByIsqId(@RequestParam value: String) : ResponseEntity<Person> {
+        val updatedISQ = try {
+            value.toBigInteger()
+        } catch (_: NumberFormatException) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+
+        val infos = personServiceImpl.getPersonByIsqId(updatedISQ)
+        return ResponseEntity(infos, HttpStatus.OK)
+    }
+
+    @GetMapping("/email")
+    fun getPersonByEmail(@RequestParam value: String) : ResponseEntity<Person> {
+        return ResponseEntity(personServiceImpl.getPersonByEmail(value), HttpStatus.OK)
     }
 
     @PostMapping
@@ -65,7 +65,9 @@ class PersonController(
         val person = Person(
             name = personDTO.name,
             surname = personDTO.surname,
-            patronymic = personDTO.patronymic
+            patronymic = personDTO.patronymic,
+            email = personDTO.email,
+            isqId = personDTO.ISQID
         )
         return personServiceImpl.addPerson(person)
     }
@@ -80,6 +82,24 @@ class PersonController(
 
         return try {
             personServiceImpl.removePersonById(updatedId)
+            HttpStatus.OK
+        } catch (_: IllegalStateException) {
+            HttpStatus.BAD_REQUEST
+        }
+    }
+
+    @PostMapping("/avatar")
+    fun setAvatar(
+        @RequestParam("avatar") file: MultipartFile, @RequestParam("id") id: String
+    ) : HttpStatus {
+        val updatedId = try {
+            id.toBigInteger()
+        } catch (_: NumberFormatException) {
+            return HttpStatus.BAD_REQUEST
+        }
+
+        return try {
+            personServiceImpl.setAvatar(file, updatedId)
             HttpStatus.OK
         } catch (_: IllegalStateException) {
             HttpStatus.BAD_REQUEST

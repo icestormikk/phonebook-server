@@ -29,9 +29,9 @@ class CountryController(
     }
 
     @GetMapping("/id")
-    fun getCountryById(@RequestParam id: String) : ResponseEntity<Country> {
+    fun getCountryById(@RequestParam value: String) : ResponseEntity<Country> {
         val updatedId = try {
-            id.toBigInteger()
+            value.toBigInteger()
         } catch (_: NumberFormatException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -45,8 +45,8 @@ class CountryController(
     }
 
     @GetMapping("/title")
-    fun getCountryByTitle(@RequestParam title: String) : ResponseEntity<Country> {
-        val country = countryServiceImpl.getCountryByTitle(title)
+    fun getCountryByTitle(@RequestParam value: String) : ResponseEntity<Country> {
+        val country = countryServiceImpl.getCountryByTitle(value)
 
         return if (country == null) {
             ResponseEntity(HttpStatus.NOT_FOUND)

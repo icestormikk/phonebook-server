@@ -50,18 +50,4 @@ open class Address(
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "CITY_ID", referencedColumnName = "ID")
     var refCity: City? = null,
-) {
-    fun toWithTitles(): AddressWithTitles {
-        return AddressWithTitles(
-            id = id,
-            countryTitle = refCountry?.title,
-            streetTitle = refStreet?.title,
-            cityTitle = refCity?.title,
-            houseNumber = houseNumber,
-            flatNumber = flatNumber,
-            refCountry = refCountry,
-            refStreet = refStreet,
-            refCity = refCity,
-        )
-    }
-}
+)

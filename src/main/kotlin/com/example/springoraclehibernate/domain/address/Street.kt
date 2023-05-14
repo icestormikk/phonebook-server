@@ -23,6 +23,10 @@ data class Street(
     @get:Column(name = "TITLE", nullable = false)
     var title: String? = null,
 
+    @get:Basic
+    @get:Column(name = "CITY_ID", nullable = false)
+    var cityID: BigInteger? = null,
+
     @JsonIgnore
     @get:OneToMany(mappedBy = "refStreet")
     var refAddress: List<Address>? = null

@@ -22,8 +22,12 @@ class InfoBookServiceImpl(
     @Autowired
     private val addressRepository: AddressRepository
 ) : InfoBookService {
-    override fun getAllInfos(): List<InfoBook> {
-        return infoBookRepository.findAll().toList()
+    override fun getAllInfos(withTitles: Boolean): List<Any> {
+        return if (withTitles) {
+            infoBookRepository.findAllWithTitles()
+        } else {
+            infoBookRepository.findAll().toList()
+        }
     }
 
     override fun getInfoById(id: BigInteger): InfoBook? {
@@ -38,14 +42,6 @@ class InfoBookServiceImpl(
 
     override fun getInfosByPhoneNumber(phoneNumber: String): List<InfoBook> {
         return infoBookRepository.getAllByPhoneNumber(phoneNumber)
-    }
-
-    override fun getInfosByEmail(email: String): List<InfoBook> {
-        return infoBookRepository.getAllByEmail(email)
-    }
-
-    override fun getInfosByISQId(isqId: BigInteger): List<InfoBook> {
-        return infoBookRepository.getAllByISQID(isqId)
     }
 
     override fun addInfo(infoBookDTO: InfoBookDTO): InfoBook {
@@ -67,8 +63,6 @@ class InfoBookServiceImpl(
         return infoBookRepository.save(
             InfoBook(
                 phoneNumber = infoBookDTO.phone,
-                email = infoBookDTO.email,
-                ISQID = infoBookDTO.ISQID,
                 personID = infoBookDTO.personID,
                 categoryID = infoBookDTO.categoryID,
                 addressID = infoBookDTO.addressID,

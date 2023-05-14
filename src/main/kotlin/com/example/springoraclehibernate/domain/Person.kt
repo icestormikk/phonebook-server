@@ -30,6 +30,18 @@ data class Person(
     @get:Column(name = "PATRONYMIC", nullable = true)
     var patronymic: String? = null,
 
+    @get:Basic
+    @get:Column(name = "EMAIL", nullable = true)
+    var email: String? = null,
+
+    @get:Basic
+    @get:Column(name = "ISQ_ID", nullable = true)
+    var isqId: java.math.BigInteger? = null,
+
+    @get:Basic
+    @get:Column(name = "AVATAR", nullable = true)
+    var avatar: String? = null,
+
     @JsonIgnore
     @get:OneToMany(mappedBy = "refPerson")
     var refInfoBook: List<InfoBook>? = null
