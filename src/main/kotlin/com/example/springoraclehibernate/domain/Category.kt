@@ -9,14 +9,15 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import java.math.BigInteger
 
 @Entity
 @Table(name = "CATEGORY", schema = "APPUSER")
 data class Category(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
-    @get:GeneratedValue(strategy= GenerationType.AUTO)
-    var id: java.math.BigInteger? = null,
+    @get:GeneratedValue(strategy= GenerationType.IDENTITY)
+    var id: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "TITLE", nullable = false)

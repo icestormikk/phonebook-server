@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -72,6 +73,16 @@ class CategoryController(
             HttpStatus.OK
         } catch (_: IllegalStateException) {
             HttpStatus.BAD_REQUEST
+        }
+    }
+
+    @PutMapping
+    fun updateCategory(@RequestBody category: Category) : ResponseEntity<Category> {
+        return try {
+            val response = categoryServiceImpl.updateCategory(category)
+            ResponseEntity(response, HttpStatus.OK)
+        } catch (_: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 }

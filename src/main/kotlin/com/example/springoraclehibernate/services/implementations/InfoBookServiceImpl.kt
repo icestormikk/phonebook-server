@@ -73,6 +73,18 @@ class InfoBookServiceImpl(
         )
     }
 
+    override fun updateInfo(infoBook: InfoBook): InfoBook {
+        if (infoBook.id == null) {
+            error("Id can not be null")
+        }
+
+        if (!infoBookRepository.existsById(infoBook.id!!)) {
+            error("The infos with id ${infoBook.id} does not exist in the database!")
+        }
+
+        return infoBookRepository.save(infoBook)
+    }
+
     override fun removeInfoById(id: BigInteger) {
         val isCountryExist = infoBookRepository.existsById(id)
 

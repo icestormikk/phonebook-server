@@ -8,5 +8,6 @@ interface AddressService {
     fun getAllAddresses(withTitles: Boolean = false) : List<Any>
     fun getAddressById(id: BigInteger) : Address?
     fun addAddress(addressDTO: AddressDTO) : Address
+    fun updateAddress(address: Address) : Address
     fun removeAddressById(id: BigInteger)
 }

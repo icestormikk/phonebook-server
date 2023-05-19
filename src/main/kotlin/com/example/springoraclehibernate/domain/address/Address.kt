@@ -10,13 +10,18 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 
 @Entity
-@Table(name = "ADDRESS", schema = "APPUSER")
+@Table(
+    name = "ADDRESS",
+    schema = "APPUSER",
+    uniqueConstraints = [UniqueConstraint(columnNames = ["COUNTRY_ID", "STREET_ID", "CITY_ID", "houseNumber", "flatNumber"])]
+)
 open class Address(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
-    @get:GeneratedValue(strategy=GenerationType.AUTO)
+    @get:GeneratedValue(strategy=GenerationType.IDENTITY)
     var id: java.math.BigInteger? = null,
 
     @get:Basic

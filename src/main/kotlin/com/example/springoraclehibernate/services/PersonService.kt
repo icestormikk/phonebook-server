@@ -13,6 +13,7 @@ interface PersonService {
     fun getPersonByEmail(email: String) : Person?
     fun getPersonByIsqId(isqId: BigInteger) : Person?
     fun addPerson(person: Person) : Person
+    fun updatePerson(person: Person) : Person
     fun setAvatar(file: MultipartFile, id: BigInteger): Person
     fun removePersonById(id: BigInteger)
 }

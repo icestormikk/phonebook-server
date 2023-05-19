@@ -29,8 +29,6 @@ class FilesController(
         val allFilesInfo = filesStorageServiceImpl
             .fetchAll()
 
-        println(allFilesInfo.map { it.fileName })
-
         val res = allFilesInfo.map {
                 val filename = it.fileName.toString()
                 val url = MvcUriComponentsBuilder

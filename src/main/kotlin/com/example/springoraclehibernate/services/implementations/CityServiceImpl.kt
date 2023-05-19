@@ -54,6 +54,18 @@ class CityServiceImpl(
         return cityRepository.save(City(title = cityDTO.title, countryID = cityDTO.countryID))
     }
 
+    override fun updateCity(city: City): City {
+        if (city.id == null) {
+            error("Id can not be null")
+        }
+
+        if (!cityRepository.existsById(city.id!!)) {
+            error("The category with id ${city.id} does not exist in the database!")
+        }
+
+        return cityRepository.save(city)
+    }
+
     override fun removeCityById(id: BigInteger) {
         val isCityExist = cityRepository.existsById(id)
 

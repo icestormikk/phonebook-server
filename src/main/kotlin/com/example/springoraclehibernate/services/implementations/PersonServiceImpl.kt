@@ -65,22 +65,42 @@ class PersonServiceImpl(
         return personRepository.save(person)
     }
 
+    override fun updatePerson(person: Person): Person {
+        if (person.id == null) {
+            error("Id can not be null")
+        }
+
+        val personDB = personRepository
+            .findById(person.id!!)
+            .orElseThrow {
+                error("The person with id ${person.id} does not exist in the database!")
+            }
+        person.avatar = personDB.avatar
+
+        return personRepository.save(person)
+    }
+
     override fun setAvatar(file: MultipartFile, id: BigInteger) : Person {
         val person = personRepository.findById(id).orElseThrow {
             error("The person with id $id does not exist in the database!")
         }
-        val filename = filesStorageServiceImpl.save(file)
+        val filename = filesStorageServiceImpl.save(file, "${person.id}")
         person.avatar = filename
 
         return personRepository.save(person)
     }
 
     override fun removePersonById(id: BigInteger) {
-        val isPersonExist = personRepository.existsById(id)
-
-        if (!isPersonExist) {
+        val person = personRepository.findById(id)
+        if (person.isEmpty) {
             error("The person with id $id does not exist in the database!")
         }
+
+        val avatar = person.get().avatar
+        if (avatar != null) {
+            filesStorageServiceImpl.delete(avatar)
+        }
+
         personRepository.deleteById(id)
     }
 }

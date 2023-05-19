@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -74,6 +75,16 @@ class CountryController(
             HttpStatus.OK
         } catch (_: NumberFormatException) {
             HttpStatus.BAD_REQUEST
+        }
+    }
+
+    @PutMapping
+    fun updateCountry(@RequestBody country: Country) : ResponseEntity<Country> {
+        return try {
+            val response = countryServiceImpl.updateCountry(country)
+            ResponseEntity(response, HttpStatus.OK)
+        } catch (_: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 }

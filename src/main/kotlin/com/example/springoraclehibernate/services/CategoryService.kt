@@ -8,5 +8,6 @@ interface CategoryService {
     fun getCategoryById(id: BigInteger) : Category?
     fun getCategoryByTitle(title: String) : Category?
     fun addCategory(category: Category) : Category
+    fun updateCategory(category: Category) : Category
     fun removeCategoryById(id: BigInteger)
 }

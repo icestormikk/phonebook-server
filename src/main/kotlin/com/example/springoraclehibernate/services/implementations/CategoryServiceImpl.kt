@@ -40,6 +40,18 @@ class CategoryServiceImpl(
         return categoryRepository.save(category)
     }
 
+    override fun updateCategory(category: Category): Category {
+        if (category.id == null) {
+            error("Id can not be null!")
+        }
+
+        if (!categoryRepository.existsById(category.id!!)) {
+            error("The category with id ${category.id} does not exist in the database!")
+        }
+
+        return categoryRepository.save(category)
+    }
+
     override fun removeCategoryById(id: BigInteger) {
         val isCategoryExist = categoryRepository.existsById(id)
 

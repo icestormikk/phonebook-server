@@ -52,6 +52,18 @@ class StreetServiceImpl(
         return streetRepository.save(Street(title = streetDTO.title, cityID = streetDTO.cityID))
     }
 
+    override fun updateStreet(street: Street): Street {
+        if (street.id == null) {
+            error("Id can not be null")
+        }
+
+        if (!streetRepository.existsById(street.id!!)) {
+            error("The street with id ${street.id} does not exist in the database!")
+        }
+
+        return streetRepository.save(street)
+    }
+
     override fun removeStreetById(id: BigInteger) {
         val isStreetExist = streetRepository.existsById(id)
 

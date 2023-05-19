@@ -12,7 +12,7 @@ import java.util.*
 interface StreetRepository : CrudRepository<Street, BigInteger> {
     fun findStreetByTitle(title: String) : Optional<Street>
     @Query(
-        value = "SELECT Street.title AS title, City.title AS cityTitle FROM City " +
+        value = "SELECT Street.ID AS ID, Street.title AS title, City.title AS cityTitle FROM City " +
                 "JOIN Street ON Street.CITY_ID = City.id",
         nativeQuery = true
     )

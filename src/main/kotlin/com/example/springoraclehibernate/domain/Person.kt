@@ -9,14 +9,15 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import java.math.BigInteger
 
 @Entity
 @Table(name = "PERSON", schema = "APPUSER")
 data class Person(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
-    @get:GeneratedValue(strategy=GenerationType.AUTO)
-    var id: Int? = null,
+    @get:GeneratedValue(strategy=GenerationType.IDENTITY)
+    var id: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "NAME", nullable = false)
@@ -31,12 +32,12 @@ data class Person(
     var patronymic: String? = null,
 
     @get:Basic
-    @get:Column(name = "EMAIL", nullable = true)
+    @get:Column(name = "EMAIL", nullable = true, unique = true)
     var email: String? = null,
 
     @get:Basic
-    @get:Column(name = "ISQ_ID", nullable = true)
-    var isqId: java.math.BigInteger? = null,
+    @get:Column(name = "ISQ_ID", nullable = true, unique = true)
+    var isqId: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "AVATAR", nullable = true)

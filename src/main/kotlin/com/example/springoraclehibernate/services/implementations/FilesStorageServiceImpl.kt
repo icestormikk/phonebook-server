@@ -24,17 +24,28 @@ class FilesStorageServiceImpl : FilesStorageService {
         }
     }
 
-    override fun save(file: MultipartFile) : String {
+    override fun save(file: MultipartFile, destFolder: String) : String {
         return try {
             val filename = file.originalFilename.toString()
-            Files.copy(file.inputStream, root.resolve(filename))
-            filename
+            val fullPath = "${destFolder}/$filename"
+            Files.createDirectories(root.resolve(destFolder))
+            Files.copy(file.inputStream, root.resolve(fullPath))
+            fullPath
         } catch (ex: Exception) {
             if (ex is FileAlreadyExistsException) {
                 error("A file of that name already exists!")
             }
 
             error("${ex.message}")
+        }
+    }
+
+    override fun delete(filename: String) {
+        try {
+            val path = root.resolve(filename)
+            Files.deleteIfExists(Paths.get(path.toUri()))
+        } catch (ex: Exception) {
+            error("Error during file deletion: ${ex.message}")
         }
     }
 

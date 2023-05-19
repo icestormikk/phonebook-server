@@ -9,5 +9,6 @@ interface StreetService {
     fun getStreetById(id: BigInteger) : Street?
     fun getStreetByTitle(title: String) : Street?
     fun addStreet(streetDTO: StreetDTO): Street
+    fun updateStreet(street: Street) : Street
     fun removeStreetById(id: BigInteger)
 }

@@ -9,5 +9,6 @@ interface CityService {
     fun getCityById(id: BigInteger) : City?
     fun getCityByTitle(title: String) : City?
     fun addCity(cityDTO: CityDTO) : City
+    fun updateCity(city: City) : City
     fun removeCityById(id: BigInteger)
 }

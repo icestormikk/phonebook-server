@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -77,6 +78,16 @@ class StreetController(
             HttpStatus.OK
         } catch (ex: IllegalStateException) {
             HttpStatus.BAD_REQUEST
+        }
+    }
+
+    @PutMapping
+    fun updateStreet(@RequestBody street: Street) : ResponseEntity<Street> {
+        return try {
+            val response = streetServiceImpl.updateStreet(street)
+            ResponseEntity(response, HttpStatus.OK)
+        } catch (_: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 }

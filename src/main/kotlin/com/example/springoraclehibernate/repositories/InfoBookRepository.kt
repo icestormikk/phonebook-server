@@ -12,6 +12,7 @@ interface InfoBookRepository : CrudRepository<InfoBook, BigInteger> {
     fun getAllByPhoneNumber(phoneNumber: String) : List<InfoBook>
     @Query(
         value = "SELECT" +
+                "    INFOBOOK.ID AS ID," +
                 "    PHONENUMBER as phone," +
                 "    P.SURNAME || ' ' || P.NAME || ' ' || P.PATRONYMIC AS Person," +
                 "    C2.TITLE as category," +

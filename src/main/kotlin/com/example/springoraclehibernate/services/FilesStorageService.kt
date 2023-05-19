@@ -6,8 +6,9 @@ import java.nio.file.Path
 
 interface FilesStorageService {
     fun initiate()
-    fun save(file: MultipartFile): String
+    fun save(file: MultipartFile, destFolder: String = ""): String
     fun load(filename: String) : Resource
+    fun delete(filename: String)
     fun fetchAll() : List<Path>
     fun deleteAll()
 }

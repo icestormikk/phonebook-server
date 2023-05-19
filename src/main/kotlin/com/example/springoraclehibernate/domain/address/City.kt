@@ -16,7 +16,7 @@ import java.math.BigInteger
 data class City(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
-    @get:GeneratedValue(strategy=GenerationType.AUTO)
+    @get:GeneratedValue(strategy=GenerationType.IDENTITY)
     var id: BigInteger? = null,
 
     @get:Basic

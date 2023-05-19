@@ -40,6 +40,18 @@ class CountryServiceImpl(
         return countryRepository.save(city)
     }
 
+    override fun updateCountry(country: Country): Country {
+        if (country.id == null) {
+            error("Id can not be null")
+        }
+
+        if (!countryRepository.existsById(country.id!!)) {
+            error("The country with id ${country.id} does not exist in the database!")
+        }
+
+        return countryRepository.save(country)
+    }
+
     override fun removeCountryById(id: BigInteger) {
         val isCountryExist = countryRepository.existsById(id)
 

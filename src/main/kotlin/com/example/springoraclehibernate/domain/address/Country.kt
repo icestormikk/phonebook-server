@@ -15,7 +15,7 @@ import jakarta.persistence.Table
 data class Country(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
-    @get:GeneratedValue(strategy= GenerationType.AUTO)
+    @get:GeneratedValue(strategy= GenerationType.IDENTITY)
     var id: java.math.BigInteger? = null,
 
     @get:Basic

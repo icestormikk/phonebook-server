@@ -11,7 +11,7 @@ import java.math.BigInteger
 interface AddressRepository : CrudRepository<Address, BigInteger> {
     @Query(
         value = "SELECT" +
-                "    C2.TITLE AS Country, C3.TITLE AS City, S.TITLE AS Street," +
+                "    AD.ID as ID, C2.TITLE AS Country, C3.TITLE AS City, S.TITLE AS Street," +
                 "    AD.HOUSENUMBER AS houseNumber, AD.FLATNUMBER AS flatNumber " +
                 "FROM ADDRESS AD" +
                 "    JOIN COUNTRY C2 on C2.ID = AD.COUNTRY_ID" +

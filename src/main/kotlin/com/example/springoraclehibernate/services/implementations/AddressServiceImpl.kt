@@ -70,6 +70,18 @@ class AddressServiceImpl(
         )
     }
 
+    override fun updateAddress(address: Address): Address {
+        if (address.id == null) {
+            error("Id can not be null!")
+        }
+
+        if (!addressRepository.existsById(address.id!!)) {
+            error("The address with id ${address.id} does not exist in the database!")
+        }
+
+        return addressRepository.save(address)
+    }
+
     override fun removeAddressById(id: BigInteger) {
         val isAddressExist = addressRepository.existsById(id)
 

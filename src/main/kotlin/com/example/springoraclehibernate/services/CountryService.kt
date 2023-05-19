@@ -8,5 +8,6 @@ interface CountryService {
     fun getCountryById(id: BigInteger) : Country?
     fun getCountryByTitle(title: String) : Country?
     fun addCountry(city: Country) : Country
+    fun updateCountry(country: Country) : Country
     fun removeCountryById(id: BigInteger)
 }
