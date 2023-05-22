@@ -7,6 +7,7 @@ import com.example.springoraclehibernate.repositories.CategoryRepository
 import com.example.springoraclehibernate.repositories.InfoBookRepository
 import com.example.springoraclehibernate.repositories.PersonRepository
 import com.example.springoraclehibernate.services.InfoBookService
+import com.example.springoraclehibernate.services.getFromRepositoryById
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.math.BigInteger
@@ -73,16 +74,26 @@ class InfoBookServiceImpl(
         )
     }
 
-    override fun updateInfo(infoBook: InfoBook): InfoBook {
-        if (infoBook.id == null) {
+    override fun updateInfo(infoBookDTO: InfoBookDTO): InfoBook {
+        if (infoBookDTO.id == null) {
             error("Id can not be null")
         }
+        println(infoBookDTO)
 
-        if (!infoBookRepository.existsById(infoBook.id!!)) {
-            error("The infos with id ${infoBook.id} does not exist in the database!")
-        }
+        val info = getFromRepositoryById(infoBookDTO.id!!, infoBookRepository, "info")
+        val person = getFromRepositoryById(infoBookDTO.personID, personRepository, "person")
+        val category = getFromRepositoryById(infoBookDTO.categoryID, categoryRepository, "category")
+        val address = getFromRepositoryById(infoBookDTO.addressID, addressRepository, "address")
 
-        return infoBookRepository.save(infoBook)
+        info.phoneNumber = infoBookDTO.phone
+        info.personID = infoBookDTO.personID
+        info.categoryID = infoBookDTO.categoryID
+        info.addressID = infoBookDTO.addressID
+        info.refPerson = person
+        info.refCategory = category
+        info.refAddress = address
+
+        return infoBookRepository.save(info)
     }
 
     override fun removeInfoById(id: BigInteger) {

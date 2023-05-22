@@ -9,6 +9,6 @@ interface InfoBookService {
     fun getInfoById(id: BigInteger) : InfoBook?
     fun getInfosByPhoneNumber(phoneNumber: String) : List<InfoBook>
     fun addInfo(infoBookDTO: InfoBookDTO) : InfoBook
-    fun updateInfo(infoBook: InfoBook) : InfoBook
+    fun updateInfo(infoBookDTO: InfoBookDTO) : InfoBook
     fun removeInfoById(id: BigInteger)
 }

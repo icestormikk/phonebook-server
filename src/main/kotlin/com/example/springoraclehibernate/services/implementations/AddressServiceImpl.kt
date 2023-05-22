@@ -7,6 +7,7 @@ import com.example.springoraclehibernate.repositories.CityRepository
 import com.example.springoraclehibernate.repositories.CountryRepository
 import com.example.springoraclehibernate.repositories.StreetRepository
 import com.example.springoraclehibernate.services.AddressService
+import com.example.springoraclehibernate.services.getFromRepositoryById
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.math.BigInteger
@@ -70,14 +71,23 @@ class AddressServiceImpl(
         )
     }
 
-    override fun updateAddress(address: Address): Address {
-        if (address.id == null) {
-            error("Id can not be null!")
+    override fun updateAddress(addressDTO: AddressDTO): Address {
+        if (addressDTO.id == null) {
+            error("Id can not be null")
         }
+        val address = getFromRepositoryById(addressDTO.id, addressRepository, "address")
+        val country = getFromRepositoryById(addressDTO.countryID, countryRepository, "country")
+        val city = getFromRepositoryById(addressDTO.cityID, cityRepository, "city")
+        val street = getFromRepositoryById(addressDTO.streetID, streetRepository, "street")
 
-        if (!addressRepository.existsById(address.id!!)) {
-            error("The address with id ${address.id} does not exist in the database!")
-        }
+        address.countryID = addressDTO.countryID
+        address.cityID = addressDTO.cityID
+        address.streetID = addressDTO.streetID
+        address.houseNumber = addressDTO.houseNumber?.toLong()
+        address.flatNumber = addressDTO.flatNumber?.toLong()
+        address.refCountry = country
+        address.refCity = city
+        address.refStreet = street
 
         return addressRepository.save(address)
     }

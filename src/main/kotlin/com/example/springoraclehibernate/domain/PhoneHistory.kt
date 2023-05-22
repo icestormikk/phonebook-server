@@ -12,6 +12,15 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.sql.Timestamp
 
+/**
+ * An entity created for the storage of particularly important military objects
+ * @property id the unique identifier of the entity
+ * @property personID id of the [Person] class object for which this record was created
+ * @property startDate the beginning of the time of using this phone number
+ * @property endDate the end of the time of using this phone number
+ * @property phone the current value of the subscriber's phone number
+ * @property refPersonEntity = references to [Person] entities that refer to this entity
+ */
 @Entity
 @Table(name = "PHONEHISTORY", schema = "APPUSER")
 data class PhoneHistory(

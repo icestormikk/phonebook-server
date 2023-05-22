@@ -11,30 +11,43 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
+import java.math.BigInteger
 
+/**
+ * An entity that stores complete address information
+ * @property id the unique identifier of the entity
+ * @property countryID id of the country that the address in this entity points to
+ * @property streetID id of the street located in the city with the id specified in [cityID]
+ * @property cityID id of the city located in the country with the id specified in [countryID]
+ * @property houseNumber the number of the house located on the street with the id specified in the [streetID]
+ * @property flatNumber the number of the flat located on the house with the number specified in the [houseNumber]
+ * @property refCountry link to a [Country] with an id equal to [countryID]
+ * @property refStreet link to a [Street] with an id equal to [streetID]
+ * @property refCity link to a [City] with an id equal to [cityID]
+ */
 @Entity
 @Table(
     name = "ADDRESS",
     schema = "APPUSER",
     uniqueConstraints = [UniqueConstraint(columnNames = ["COUNTRY_ID", "STREET_ID", "CITY_ID", "houseNumber", "flatNumber"])]
 )
-open class Address(
+data class Address(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
     @get:GeneratedValue(strategy=GenerationType.IDENTITY)
-    var id: java.math.BigInteger? = null,
+    var id: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "COUNTRY_ID", nullable = false, insertable = false, updatable = false)
-    var countryID: java.math.BigInteger? = null,
+    var countryID: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "STREET_ID", nullable = false, insertable = false, updatable = false)
-    var streetID: java.math.BigInteger? = null,
+    var streetID: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "CITY_ID", nullable = false, insertable = false, updatable = false)
-    var cityID: java.math.BigInteger? = null,
+    var cityID: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "HOUSENUMBER", nullable = true)

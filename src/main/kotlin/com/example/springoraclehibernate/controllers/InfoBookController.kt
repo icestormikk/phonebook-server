@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Controller for processing requests for manipulating [InfoBook] entities
+ * @property infoBookServiceImpl a set of methods for manipulating [InfoBook] entities
+ */
 @RestController
 @RequestMapping("/infos")
 @CrossOrigin
@@ -23,11 +27,21 @@ class InfoBookController(
     @Autowired
     private val infoBookServiceImpl: InfoBookServiceImpl
 ) {
+    /**
+     * Processing a request to get all entities
+     * @return list of [InfoBook] entities
+     */
     @GetMapping
     fun getAllInfos(@RequestParam(required = false) withMoreInfo: Boolean) : ResponseEntity<List<Any>> {
         return ResponseEntity(infoBookServiceImpl.getAllInfos(withMoreInfo), HttpStatus.OK)
     }
 
+    /**
+     * Processing a request to get an [InfoBook] entity by its unique id
+     * @param value the value of the id parameter of the desired entity
+     * @return BAD_REQUEST, if the ID format is incorrect; the [InfoBook] entity,
+     * if there is one; otherwise NOT_FOUND
+     */
     @GetMapping("/id")
     fun getInfoById(@RequestParam value: String) : ResponseEntity<InfoBook> {
         val updatedId = try {
@@ -44,11 +58,21 @@ class InfoBookController(
         }
     }
 
+    /**
+     * Processing a request to receive an [InfoBook] entity by a unique phone number for each record
+     * @param value the value of the parameter storing the phone number
+     * @return list of [InfoBook] entities with the specified phone number
+     */
     @GetMapping("/phone")
     fun getInfosByPhone(@RequestParam value: String) : ResponseEntity<List<InfoBook>> {
         return ResponseEntity(infoBookServiceImpl.getInfosByPhoneNumber(value), HttpStatus.OK)
     }
 
+    /**
+     * Processing a request to add an [InfoBook] entity to the database
+     * @param infoBookDTO basic information about the new [InfoBook] entity
+     * @return a newly created entity
+     */
     @PostMapping
     fun addInfo(@RequestBody infoBookDTO: InfoBookDTO) : ResponseEntity<InfoBook> {
         return try {
@@ -59,6 +83,12 @@ class InfoBookController(
         }
     }
 
+    /**
+     * Processing a request to delete an [InfoBook] entity from the database by its unique id
+     * @param id the value of the id parameter of the entity being deleted
+     * @return BAD_REQUEST, if the ID format is incorrect; the [InfoBook] entity,
+     * if there is one; otherwise NOT_FOUND
+     */
     @DeleteMapping
     fun removeInfoById(@RequestParam id: String) : HttpStatus {
         val updatedId = try {
@@ -71,14 +101,19 @@ class InfoBookController(
             infoBookServiceImpl.removeInfoById(updatedId)
             HttpStatus.OK
         } catch (_: IllegalStateException) {
-            HttpStatus.BAD_REQUEST
+            HttpStatus.NOT_FOUND
         }
     }
 
+    /**
+     * Processing a request to change [InfoBook] entity data in the database
+     * @param infoBookDTO basic information to be applied to the entity
+     * @return an entity with updated data
+     */
     @PutMapping
-    fun updateInfo(infoBook: InfoBook) : ResponseEntity<InfoBook> {
+    fun updateInfo(@RequestBody infoBookDTO: InfoBookDTO) : ResponseEntity<InfoBook> {
         return try {
-            val response = infoBookServiceImpl.updateInfo(infoBook)
+            val response = infoBookServiceImpl.updateInfo(infoBookDTO)
             ResponseEntity(response, HttpStatus.OK)
         } catch (_: IllegalStateException) {
             ResponseEntity(HttpStatus.BAD_REQUEST)

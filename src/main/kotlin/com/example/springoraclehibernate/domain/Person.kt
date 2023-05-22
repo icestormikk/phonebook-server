@@ -11,6 +11,17 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.math.BigInteger
 
+/**
+ * A person with information about himself
+ * @property id the unique identifier of the entity
+ * @property name name of the person
+ * @property surname surname of the person
+ * @property patronymic patronymic of the person
+ * @property email the person's email address
+ * @property isqId ISQ id of the specified user
+ * @property avatar link to the image that will be displayed as your avatar
+ * @property refInfoBook  references to [InfoBook] entities that refer to this entity
+ */
 @Entity
 @Table(name = "PERSON", schema = "APPUSER")
 data class Person(

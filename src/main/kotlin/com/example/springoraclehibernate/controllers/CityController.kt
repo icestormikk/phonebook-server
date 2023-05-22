@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Controller for processing requests for manipulating [City] entities
+ * @property cityServiceImpl a set of methods for manipulating [City] entities
+ */
 @RestController
 @RequestMapping("/cities")
 @CrossOrigin
@@ -23,11 +27,21 @@ class CityController(
     @Autowired
     private val cityServiceImpl: CityServiceImpl
 ) {
+    /**
+     * Processing a request to get all entities
+     * @return list of [City] entities
+     */
     @GetMapping
     fun getAllCities(@RequestParam(required = false) withTitles: Boolean) : ResponseEntity<List<Any>> {
         return ResponseEntity(cityServiceImpl.getAllCities(withTitles), HttpStatus.OK)
     }
 
+    /**
+     * Processing a request to get an [City] entity by its unique id
+     * @param value the value of the id parameter of the desired entity
+     * @return BAD_REQUEST, if the ID format is incorrect; the [City] entity,
+     * if there is one; otherwise NOT_FOUND
+     */
     @GetMapping("/id")
     fun getOneCityById(@RequestParam value: String) : ResponseEntity<City> {
         val updatedId = try {
@@ -44,6 +58,11 @@ class CityController(
         }
     }
 
+    /**
+     * Processing a request to get a [City] entity by its name
+     * @param value the value of the title parameter
+     * @return the [City] entity, if there is one, otherwise NOT_FOUND
+     */
     @GetMapping("/title")
     fun getOneCityByTitle(@RequestParam value: String) : ResponseEntity<City> {
         val city = cityServiceImpl.getCityByTitle(value)
@@ -55,6 +74,11 @@ class CityController(
         }
     }
 
+    /**
+     * Processing a request to add an [City] entity to the database
+     * @param cityDTO basic information about the new [City] entity
+     * @return a newly created entity
+     */
     @PostMapping
     fun addCity(@RequestBody cityDTO: CityDTO) : ResponseEntity<City> {
         return try {
@@ -65,6 +89,12 @@ class CityController(
         }
     }
 
+    /**
+     * Processing a request to delete an [City] entity from the database by its unique id
+     * @param id the value of the id parameter of the entity being deleted
+     * @return BAD_REQUEST, if the ID format is incorrect; the [City] entity,
+     * if there is one; otherwise NOT_FOUND
+     */
     @DeleteMapping
     fun removeCityById(@RequestParam id: String) : HttpStatus {
         val updatedId = try {
@@ -77,10 +107,15 @@ class CityController(
             cityServiceImpl.removeCityById(updatedId)
             HttpStatus.OK
         } catch (_: IllegalStateException) {
-            HttpStatus.BAD_REQUEST
+            HttpStatus.NOT_FOUND
         }
     }
 
+    /**
+     * Processing a request to change [City] entity data in the database
+     * @param city basic information to be applied to the entity
+     * @return an entity with updated data
+     */
     @PutMapping
     fun updateCategory(@RequestBody city: City) : ResponseEntity<City> {
         return try {

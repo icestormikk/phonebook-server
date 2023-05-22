@@ -1,8 +1,10 @@
 package com.example.springoraclehibernate.services.implementations
 
 import com.example.springoraclehibernate.domain.Person
+import com.example.springoraclehibernate.domain.dto.PersonDTO
 import com.example.springoraclehibernate.repositories.PersonRepository
 import com.example.springoraclehibernate.services.PersonService
+import com.example.springoraclehibernate.services.getFromRepositoryById
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -65,17 +67,17 @@ class PersonServiceImpl(
         return personRepository.save(person)
     }
 
-    override fun updatePerson(person: Person): Person {
-        if (person.id == null) {
+    override fun updatePerson(personDTO: PersonDTO): Person {
+        if (personDTO.id == null) {
             error("Id can not be null")
         }
 
-        val personDB = personRepository
-            .findById(person.id!!)
-            .orElseThrow {
-                error("The person with id ${person.id} does not exist in the database!")
-            }
-        person.avatar = personDB.avatar
+        val person = getFromRepositoryById(personDTO.id!!, personRepository, "person")
+        person.name = personDTO.name
+        person.surname = personDTO.surname
+        person.patronymic = personDTO.patronymic
+        person.email = personDTO.email
+        person.isqId = personDTO.isqId
 
         return personRepository.save(person)
     }

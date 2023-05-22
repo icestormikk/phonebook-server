@@ -11,6 +11,13 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.math.BigInteger
 
+/**
+ * An entity containing information about a city in a country
+ * @property id the unique identifier of the entity
+ * @property title name of the city
+ * @property countryID id of the [Country] where the city is located
+ * @property refAddress references to [Address] entities that refer to this entity
+ */
 @Entity
 @Table(name = "CITY", schema = "APPUSER")
 data class City(

@@ -13,6 +13,17 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.math.BigInteger
 
+/**
+ * The basic unit of the phone book
+ * @property id the unique identifier of the entity
+ * @property phoneNumber subscriber's phone number in the record
+ * @property personID id of the [Person] class object for which this record was created
+ * @property categoryID id of the [Category] class object to which the subscriber belongs
+ * @property addressID id of the [Address] class object with information about the subscriber's address
+ * @property refPerson  references to [Person] entities that refer to this entity
+ * @property refCategory  references to [Category] entities that refer to this entity
+ * @property refAddress  references to [Address] entities that refer to this entity
+ */
 @Entity
 @Table(name = "INFOBOOK", schema = "APPUSER")
 data class InfoBook(

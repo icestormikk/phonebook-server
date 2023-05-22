@@ -1,6 +1,7 @@
 package com.example.springoraclehibernate.services
 
 import com.example.springoraclehibernate.domain.Person
+import com.example.springoraclehibernate.domain.dto.PersonDTO
 import org.springframework.web.multipart.MultipartFile
 import java.math.BigInteger
 
@@ -13,7 +14,7 @@ interface PersonService {
     fun getPersonByEmail(email: String) : Person?
     fun getPersonByIsqId(isqId: BigInteger) : Person?
     fun addPerson(person: Person) : Person
-    fun updatePerson(person: Person) : Person
+    fun updatePerson(personDTO: PersonDTO) : Person
     fun setAvatar(file: MultipartFile, id: BigInteger): Person
     fun removePersonById(id: BigInteger)
 }

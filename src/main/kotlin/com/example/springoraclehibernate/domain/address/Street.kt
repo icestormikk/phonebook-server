@@ -11,6 +11,13 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.math.BigInteger
 
+/**
+ * An entity containing information about a street in a city
+ * @property id the unique identifier of the entity
+ * @property title name of the country
+ * @property cityID id of the [City] where the street is located
+ * @property refAddress references to [Address] entities that refer to this entity
+ */
 @Entity
 @Table(name = "STREET", schema = "APPUSER")
 data class Street(

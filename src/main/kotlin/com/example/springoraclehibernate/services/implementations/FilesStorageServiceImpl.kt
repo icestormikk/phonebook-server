@@ -11,6 +11,7 @@ import java.net.MalformedURLException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 @Service
 class FilesStorageServiceImpl : FilesStorageService {
@@ -29,7 +30,7 @@ class FilesStorageServiceImpl : FilesStorageService {
             val filename = file.originalFilename.toString()
             val fullPath = "${destFolder}/$filename"
             Files.createDirectories(root.resolve(destFolder))
-            Files.copy(file.inputStream, root.resolve(fullPath))
+            Files.copy(file.inputStream, root.resolve(fullPath), StandardCopyOption.REPLACE_EXISTING)
             fullPath
         } catch (ex: Exception) {
             if (ex is FileAlreadyExistsException) {

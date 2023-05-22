@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder
 
+/**
+ * Controller for manipulating files located on the server
+ * @property filesStorageServiceImpl sets of methods that perform
+ * manipulations with files and directories on the server
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/files")
@@ -24,6 +29,11 @@ class FilesController(
     @Autowired
     private val filesStorageServiceImpl: FilesStorageServiceImpl
 ) {
+    /**
+     * Retrieving all user files contained on the server
+     * @return List of files as objects of the [FileInfo] class (
+     * contain the url of the file and its name)
+     */
     @GetMapping
     fun getAllFiles(): ResponseEntity<List<FileInfo>> {
         val allFilesInfo = filesStorageServiceImpl
@@ -45,6 +55,11 @@ class FilesController(
         return ResponseEntity(res, HttpStatus.OK)
     }
 
+    /**
+     * Getting a file from the server by its name
+     * @param value name of the requested file
+     * @return a file in the form of a set of bytes
+     */
     @GetMapping("/filename")
     fun getFile(@RequestParam value: String): ResponseEntity<Resource> {
         val file = filesStorageServiceImpl.load(value)
@@ -57,6 +72,12 @@ class FilesController(
             .body(file)
     }
 
+    /**
+     * Uploading a new file to the server
+     * @param file the file to be uploaded to the server as a set of bytes
+     * (an object of the MultipartFile class)
+     * @return OK, if the file is successfully uploaded to the server, otherwise BAD_REQUEST
+     */
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseEntity<HttpStatus> {
         return try {

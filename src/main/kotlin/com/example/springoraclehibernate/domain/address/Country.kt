@@ -10,6 +10,12 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 
+/**
+ * An entity that stores minimal information about the country
+ * @property id the unique identifier of the entity
+ * @property title name of the country
+ * @property refAddress references to [Address] entities that refer to this entity
+ */
 @Entity
 @Table(name = "COUNTRY", schema = "APPUSER")
 data class Country(

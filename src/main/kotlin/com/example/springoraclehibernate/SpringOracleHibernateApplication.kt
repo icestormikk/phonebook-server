@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @EnableJpaRepositories
 class SpringOracleHibernateApplication(
     @Autowired
-    private val storageServiceImpl: FilesStorageServiceImpl
+    private val storageServiceImpl: FilesStorageServiceImpl,
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         storageServiceImpl.initiate()
