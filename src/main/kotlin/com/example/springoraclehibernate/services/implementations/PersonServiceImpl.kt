@@ -35,6 +35,17 @@ class PersonServiceImpl(
         return personRepository.findAllByName(name)
     }
 
+    override fun getPersonByPhone(phone: String): Person? {
+        println(phone)
+        val person = personRepository.findPersonByPhone(phone)
+
+        return if (person.isEmpty) {
+            null
+        } else {
+            person.get()
+        }
+    }
+
     override fun getPersonsBySurname(surname: String): List<Person> {
         return personRepository.findAllBySurname(surname)
     }

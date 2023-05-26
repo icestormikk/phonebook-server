@@ -119,6 +119,23 @@ class PersonController(
     }
 
     /**
+     *
+     *
+     * @param value
+     * @return
+     */
+    @GetMapping("/phone")
+    fun getPeopleByPhone(@RequestParam value: String) : ResponseEntity<Person> {
+        val person = personServiceImpl.getPersonByPhone(value)
+
+        return if (person == null) {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        } else {
+            ResponseEntity(person, HttpStatus.OK)
+        }
+    }
+
+    /**
      * Processing a request to add an [Person] entity to the database
      * @param personDTO basic information about the new [Person] entity
      * @return a newly created entity

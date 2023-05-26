@@ -1,7 +1,9 @@
 package com.example.springoraclehibernate.repositories
 
 import com.example.springoraclehibernate.domain.Person
+import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.math.BigInteger
 import java.util.*
@@ -13,4 +15,14 @@ interface PersonRepository : CrudRepository<Person, BigInteger> {
     fun findAllByPatronymic(patronymic: String) : List<Person>
     fun findPersonByEmail(email: String) : Optional<Person>
     fun findPersonByIsqId(isqId: BigInteger) : Optional<Person>
+
+    @Query(
+        value = "SELECT" +
+                "    PERSON.ID, NAME, SURNAME, PATRONYMIC, EMAIL, ISQ_ID, AVATAR " +
+                "FROM PERSON" +
+                "    JOIN INFOBOOK I on PERSON.ID = I.PERSON_ID" +
+                "    WHERE PHONENUMBER = :phone",
+        nativeQuery = true
+    )
+    fun findPersonByPhone(@Param("phone") phone: String) : Optional<Person>
 }

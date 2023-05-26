@@ -13,6 +13,7 @@ interface PersonService {
     fun getPersonsByPatronymic(patronymic: String) : List<Person>
     fun getPersonByEmail(email: String) : Person?
     fun getPersonByIsqId(isqId: BigInteger) : Person?
+    fun getPersonByPhone(phone: String) : Person?
     fun addPerson(person: Person) : Person
     fun updatePerson(personDTO: PersonDTO) : Person
     fun setAvatar(file: MultipartFile, id: BigInteger): Person
