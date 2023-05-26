@@ -31,7 +31,7 @@ data class City(
     var title: String? = null,
 
     @get:Basic
-    @get:Column(name = "COUNTRY_ID", nullable = false)
+    @get:Column(name = "COUNTRY_ID", nullable = true)
     var countryID: BigInteger? = null,
 
     @JsonIgnore

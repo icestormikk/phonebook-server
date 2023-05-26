@@ -13,10 +13,10 @@ interface AddressRepository : CrudRepository<Address, BigInteger> {
         value = "SELECT" +
                 "    AD.ID as ID, C2.TITLE AS Country, C3.TITLE AS City, S.TITLE AS Street," +
                 "    AD.HOUSENUMBER AS houseNumber, AD.FLATNUMBER AS flatNumber " +
-                "FROM ADDRESS AD" +
+                "FROM ADDRESS AD\n" +
                 "    JOIN COUNTRY C2 on C2.ID = AD.COUNTRY_ID" +
-                "    JOIN CITY C3 on C2.ID = C3.COUNTRY_ID" +
-                "    JOIN STREET S on C3.ID = S.CITY_ID",
+                "    JOIN CITY C3 on C3.ID = AD.CITY_ID" +
+                "    JOIN STREET S on S.ID = AD.STREET_ID",
         nativeQuery = true
     )
     fun findAllWithTitles() : List<AddressWithTitlesType>
