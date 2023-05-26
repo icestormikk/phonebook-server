@@ -45,6 +45,10 @@ class InfoBookServiceImpl(
         return infoBookRepository.getAllByPhoneNumber(phoneNumber)
     }
 
+    override fun getAllByInitials(name: String?, surname: String?, patronymic: String?, category: String): List<InfoBook> {
+        return infoBookRepository.findAllByInitials(name, surname, patronymic, category)
+    }
+
     override fun addInfo(infoBookDTO: InfoBookDTO): InfoBook {
         val person = personRepository.findById(infoBookDTO.personID)
         if (person.isEmpty) {

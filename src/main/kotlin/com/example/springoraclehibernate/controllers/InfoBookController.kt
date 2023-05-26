@@ -59,6 +59,27 @@ class InfoBookController(
     }
 
     /**
+     * Processing a request for a list of people based on their first name,
+     * last name and patronymic (if any)
+     * @param name the name of the people to search for
+     * @param surname the surname of the people to search for
+     * @param patronymic the patronymic of the people to search for
+     * @return a list of people who fit at least one search criteria
+     */
+    @GetMapping("/initials")
+    fun getInfosByInitials(
+        @RequestParam(required = false) name: String?,
+        @RequestParam(required = false) surname: String?,
+        @RequestParam(required = false) patronymic: String?,
+        @RequestParam category: String
+    ) : ResponseEntity<List<InfoBook>> {
+        return ResponseEntity(
+            infoBookServiceImpl.getAllByInitials(name, surname, patronymic, category),
+            HttpStatus.OK
+        )
+    }
+
+    /**
      * Processing a request to receive an [InfoBook] entity by a unique phone number for each record
      * @param value the value of the parameter storing the phone number
      * @return list of [InfoBook] entities with the specified phone number
