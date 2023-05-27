@@ -36,8 +36,8 @@ class CountryServiceImpl(
         }
     }
 
-    override fun addCountry(city: Country): Country {
-        return countryRepository.save(city)
+    override fun addCountry(country: Country): Country {
+        return countryRepository.save(country)
     }
 
     override fun updateCountry(country: Country): Country {
