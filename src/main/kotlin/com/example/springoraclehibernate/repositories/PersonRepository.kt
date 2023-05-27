@@ -21,8 +21,8 @@ interface PersonRepository : CrudRepository<Person, BigInteger> {
                 "    PERSON.ID, NAME, SURNAME, PATRONYMIC, EMAIL, ISQ_ID, AVATAR " +
                 "FROM PERSON" +
                 "    JOIN INFOBOOK I on PERSON.ID = I.PERSON_ID" +
-                "    WHERE PHONENUMBER = :phone",
+                "    WHERE PHONENUMBER = :phoneNumber",
         nativeQuery = true
     )
-    fun findPersonByPhone(@Param("phone") phone: String) : Optional<Person>
+    fun findPersonByPhone(@Param("phoneNumber") phone: String) : Optional<Person>
 }

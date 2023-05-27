@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Controller for processing requests for manipulating [PhoneType] entities
+ * @property phoneTypeServiceImpl a set of methods for manipulating [PhoneType] entities
+ */
 @RestController
 @RequestMapping("/types")
 @CrossOrigin
@@ -22,15 +26,25 @@ class PhoneTypeController(
     @Autowired
     private val phoneTypeServiceImpl: PhoneTypeServiceImpl
 ) {
+    /**
+     * Processing a request to get all entities
+     * @return list of [PhoneType] entities
+     */
     @GetMapping
     fun getAllTypes() : ResponseEntity<List<PhoneType>> {
         return ResponseEntity(phoneTypeServiceImpl.getAllTypes(), HttpStatus.OK)
     }
 
+    /**
+     * Processing a request to get an [PhoneType] entity by its unique id
+     * @param value the value of the id parameter of the desired entity
+     * @return BAD_REQUEST, if the ID format is incorrect; the [PhoneType] entity,
+     * if there is one; otherwise NOT_FOUND
+     */
     @GetMapping("/id")
     fun getTypeById(@RequestParam value: String) : ResponseEntity<PhoneType> {
         val updatedId = try {
-            value.toLong()
+            value.toBigInteger()
         } catch (ex: NumberFormatException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -43,15 +57,26 @@ class PhoneTypeController(
         }
     }
 
+    /**
+     * Processing a request to add an [PhoneType] entity to the database
+     * @param type basic information about the new [PhoneType] entity
+     * @return a newly created entity
+     */
     @PostMapping
     fun addType(@RequestBody type: PhoneType) : ResponseEntity<PhoneType> {
         return ResponseEntity(phoneTypeServiceImpl.addType(type), HttpStatus.OK)
     }
 
+    /**
+     * Processing a request to delete an [PhoneType] entity from the database by its unique id
+     * @param id the value of the id parameter of the entity being deleted
+     * @return BAD_REQUEST, if the ID format is incorrect; the [PhoneType] entity,
+     * if there is one; otherwise NOT_FOUND
+     */
     @DeleteMapping
     fun deleteTypeById(@RequestParam id: String) : HttpStatus {
         val updatedId = try {
-            id.toLong()
+            id.toBigInteger()
         } catch (_: NumberFormatException) {
             return HttpStatus.BAD_REQUEST
         }
@@ -64,6 +89,11 @@ class PhoneTypeController(
         }
     }
 
+    /**
+     * Processing a request to change [PhoneType] entity data in the database
+     * @param type basic information to be applied to the entity
+     * @return an entity with updated data
+     */
     @PutMapping
     fun updateType(@RequestParam type: PhoneType) : ResponseEntity<PhoneType> {
         return try {

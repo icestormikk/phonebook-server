@@ -8,8 +8,9 @@ import java.math.BigInteger
  */
 interface InfoBookWithTitlesType {
     fun getId() : BigInteger
-    fun getPhone(): String
+    fun getPhoneNumber(): String
     fun getPerson(): String?
     fun getCategory(): String?
     fun getAddress(): String?
+    fun getPhoneType(): String?
 }

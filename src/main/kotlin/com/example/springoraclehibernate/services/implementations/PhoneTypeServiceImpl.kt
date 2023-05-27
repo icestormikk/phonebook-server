@@ -5,6 +5,7 @@ import com.example.springoraclehibernate.repositories.PhoneTypeRepository
 import com.example.springoraclehibernate.services.PhoneTypeService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.math.BigInteger
 
 @Service
 class PhoneTypeServiceImpl(
@@ -15,7 +16,7 @@ class PhoneTypeServiceImpl(
         return phoneTypeRepository.findAll().toList()
     }
 
-    override fun getTypeById(id: Long): PhoneType? {
+    override fun getTypeById(id: BigInteger): PhoneType? {
         val type = phoneTypeRepository.findById(id)
 
         if (type.isEmpty) {
@@ -28,7 +29,7 @@ class PhoneTypeServiceImpl(
         return phoneTypeRepository.save(type)
     }
 
-    override fun deleteType(id: Long) {
+    override fun deleteType(id: BigInteger) {
         val isTypeExist = phoneTypeRepository.existsById(id)
 
         if (!isTypeExist) {

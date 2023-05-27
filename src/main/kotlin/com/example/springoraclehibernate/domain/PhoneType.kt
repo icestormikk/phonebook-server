@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import java.math.BigInteger
 
 
 @Entity
@@ -15,10 +16,10 @@ data class PhoneType(
     @get:Id
     @get:Column(name = "ID", nullable = false)
     @get:GeneratedValue(strategy= GenerationType.IDENTITY)
-    var id: Long? = null,
+    var id: BigInteger? = null,
 
     @get:Basic
     @get:Column(name = "TITLE", nullable = false)
-    var title: String? = null
+    var title: String? = null,
 )
 

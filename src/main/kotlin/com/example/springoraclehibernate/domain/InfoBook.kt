@@ -37,6 +37,10 @@ data class InfoBook(
     var phoneNumber: String? = null,
 
     @get:Basic
+    @get:Column(name = "PHONE_TYPE", nullable = true)
+    var phoneType: BigInteger? = null,
+
+    @get:Basic
     @get:Column(name = "PERSON_ID", nullable = false, insertable = false, updatable = false)
     var personID: BigInteger? = null,
 
