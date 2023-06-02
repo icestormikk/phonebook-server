@@ -1,5 +1,6 @@
 package com.example.springoraclehibernate.controllers
 
+import com.example.springoraclehibernate.domain.Person
 import com.example.springoraclehibernate.domain.PhoneHistory
 import com.example.springoraclehibernate.services.implementations.PhoneHistoryServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -74,5 +75,20 @@ class PhoneHistoryController(
         } else {
             ResponseEntity(history, HttpStatus.OK)
         }
+    }
+
+    /**
+     * Processing a request to get a list of people who have ever had a phone
+     * passed in the [oldPhone] parameter
+     * @param oldPhone the phone number that will be used for the search
+     * @return list of people who have ever had a phone number specified in
+     * the [oldPhone] parameter
+     */
+    @GetMapping("/oldphone")
+    fun getPeopleByOldPhone(@RequestParam oldPhone: String) : ResponseEntity<List<Person>> {
+        return ResponseEntity(
+            phoneHistoryServiceImpl.getPersonByOldPhone(oldPhone),
+            HttpStatus.OK
+        )
     }
 }
