@@ -47,11 +47,11 @@ data class PhoneHistory(
     var phone: String? = null,
 
     @get:Basic
-    @get:Column(name = "PHONE_TYPE", nullable = true, insertable = false, updatable = false)
+    @get:Column(name = "PHONE_TYPE_ID", nullable = true, insertable = false, updatable = false)
     var phoneType: BigInteger? = null,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "PHONE_TYPE", referencedColumnName = "ID")
+    @get:JoinColumn(name = "PHONE_TYPE_ID", referencedColumnName = "ID")
     var refPhoneType: PhoneType? = null,
 
     @get:ManyToOne(fetch = FetchType.LAZY)

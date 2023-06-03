@@ -8,8 +8,6 @@ import java.math.BigInteger
 data class InfoBookDTO(
     var phoneNumber: String,
     var personID: BigInteger,
-    var categoryID: BigInteger,
-    var addressID: BigInteger,
     var phoneTypeID: BigInteger,
     var id: BigInteger? = null
 )

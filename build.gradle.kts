@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.example"
-version = "1.0.0"
+version = "1.0.2"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {

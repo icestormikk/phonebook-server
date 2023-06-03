@@ -33,8 +33,10 @@ class PersonController(
      * @return list of [Person] entities
      */
     @GetMapping
-    fun getPeople() : ResponseEntity<List<Person>> {
-        return ResponseEntity(personServiceImpl.getPeople(), HttpStatus.OK)
+    fun getPeople(
+        @RequestParam(required = false) withTitles: Boolean
+    ) : ResponseEntity<List<Any>> {
+        return ResponseEntity(personServiceImpl.getPeople(withTitles), HttpStatus.OK)
     }
 
     /**

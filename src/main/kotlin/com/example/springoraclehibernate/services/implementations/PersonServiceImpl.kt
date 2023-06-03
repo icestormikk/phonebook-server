@@ -2,6 +2,8 @@ package com.example.springoraclehibernate.services.implementations
 
 import com.example.springoraclehibernate.domain.Person
 import com.example.springoraclehibernate.domain.dto.PersonDTO
+import com.example.springoraclehibernate.repositories.AddressRepository
+import com.example.springoraclehibernate.repositories.CategoryRepository
 import com.example.springoraclehibernate.repositories.PersonRepository
 import com.example.springoraclehibernate.services.PersonService
 import com.example.springoraclehibernate.services.getFromRepositoryById
@@ -15,10 +17,20 @@ class PersonServiceImpl(
     @Autowired
     private val personRepository: PersonRepository,
     @Autowired
-    private val filesStorageServiceImpl: FilesStorageServiceImpl
+    private val filesStorageServiceImpl: FilesStorageServiceImpl,
+    @Autowired
+    private val categoryRepository: CategoryRepository,
+    @Autowired
+    private val addressRepository: AddressRepository
 ) : PersonService {
-    override fun getPeople(): List<Person> {
-        return personRepository.findAll().toList()
+    override fun getPeople(withTitles: Boolean): List<Any> {
+        val iterable = if (withTitles) {
+            personRepository.findAllWithTitles()
+        } else {
+            personRepository.findAll()
+        }
+
+        return iterable.toList()
     }
 
     override fun getPersonById(id: BigInteger): Person? {
@@ -84,11 +96,15 @@ class PersonServiceImpl(
         }
 
         val person = getFromRepositoryById(personDTO.id!!, personRepository, "person")
+        val category = getFromRepositoryById(personDTO.categoryID!!, categoryRepository, "category")
+        val address = getFromRepositoryById(personDTO.addressID!!, addressRepository, "address")
         person.name = personDTO.name
         person.surname = personDTO.surname
         person.patronymic = personDTO.patronymic
         person.email = personDTO.email
         person.isqId = personDTO.isqId
+        person.addressID = address.id
+        person.categoryID = category.id
 
         return personRepository.save(person)
     }

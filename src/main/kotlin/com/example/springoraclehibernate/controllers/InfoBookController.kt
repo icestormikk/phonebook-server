@@ -64,6 +64,7 @@ class InfoBookController(
      * @param name the name of the people to search for
      * @param surname the surname of the people to search for
      * @param patronymic the patronymic of the people to search for
+     * @param categoryId id of the [Category] entity that the user should be from
      * @return a list of people who fit at least one search criteria
      */
     @GetMapping("/initials")
@@ -71,10 +72,16 @@ class InfoBookController(
         @RequestParam(required = false) name: String?,
         @RequestParam(required = false) surname: String?,
         @RequestParam(required = false) patronymic: String?,
-        @RequestParam category: String
+        @RequestParam categoryId: String
     ) : ResponseEntity<List<InfoBook>> {
+        val updatedId = try {
+            categoryId.toBigInteger()
+        } catch (_: NumberFormatException) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+
         return ResponseEntity(
-            infoBookServiceImpl.getAllByInitials(name, surname, patronymic, category),
+            infoBookServiceImpl.getAllByInitials(name, surname, patronymic, updatedId),
             HttpStatus.OK
         )
     }

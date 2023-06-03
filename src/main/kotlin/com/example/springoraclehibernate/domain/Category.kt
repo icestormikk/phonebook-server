@@ -1,14 +1,12 @@
 package com.example.springoraclehibernate.domain
 
 import com.example.springoraclehibernate.domain.address.Address
-import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.Basic
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.math.BigInteger
 
@@ -16,7 +14,6 @@ import java.math.BigInteger
  * The category to which people from the phone book belong
  * @property id the unique identifier of the entity
  * @property title name of the category
- * @property refInfoBook references to [Address] entities that refer to this entity
  */
 @Entity
 @Table(name = "CATEGORY", schema = "APPUSER")
@@ -29,9 +26,5 @@ data class Category(
     @get:Basic
     @get:Column(name = "TITLE", nullable = false)
     var title: String? = null,
-
-    @JsonIgnore
-    @get:OneToMany(mappedBy = "refCategory")
-    var refInfoBook: List<InfoBook>? = null
 )
 

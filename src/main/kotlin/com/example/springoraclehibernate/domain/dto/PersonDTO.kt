@@ -12,4 +12,6 @@ data class PersonDTO(
     val patronymic: String? = null,
     var email: String? = null,
     var isqId: BigInteger? = null,
+    var categoryID: BigInteger? = null,
+    var addressID: BigInteger? = null
 )

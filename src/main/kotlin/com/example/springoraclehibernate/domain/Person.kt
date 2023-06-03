@@ -20,14 +20,15 @@ import java.math.BigInteger
  * @property email the person's email address
  * @property isqId ISQ id of the specified user
  * @property avatar link to the image that will be displayed as your avatar
- * @property refInfoBook  references to [InfoBook] entities that refer to this entity
+ * @property addressID id of the [Address] entity to which the object of this class belongs
+ * @property refInfoBook references to [InfoBook] entities that refer to this entity
  */
 @Entity
 @Table(name = "PERSON", schema = "APPUSER")
 data class Person(
     @get:Id
     @get:Column(name = "ID", unique = true, nullable = false, updatable = false)
-    @get:GeneratedValue(strategy=GenerationType.IDENTITY)
+    @get:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: BigInteger? = null,
 
     @get:Basic
@@ -54,7 +55,15 @@ data class Person(
     @get:Column(name = "AVATAR", nullable = true)
     var avatar: String? = null,
 
+    @get:Basic
+    @get:Column(name = "ADDRESS_ID", nullable = false)
+    var addressID: BigInteger? = null,
+
+    @get:Basic
+    @get:Column(name = "CATEGORY_ID", nullable = false)
+    var categoryID: BigInteger? = null,
+
     @JsonIgnore
     @get:OneToMany(mappedBy = "refPerson")
-    var refInfoBook: List<InfoBook>? = null
+    var refInfoBook: List<InfoBook>? = null,
 )

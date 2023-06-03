@@ -1,6 +1,6 @@
 package com.example.springoraclehibernate.domain
 
-import com.example.springoraclehibernate.domain.address.Address
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.Basic
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -18,11 +18,7 @@ import java.math.BigInteger
  * @property id the unique identifier of the entity
  * @property phoneNumber subscriber's phone number in the record
  * @property personID id of the [Person] class object for which this record was created
- * @property categoryID id of the [Category] class object to which the subscriber belongs
- * @property addressID id of the [Address] class object with information about the subscriber's address
  * @property refPerson  references to [Person] entities that refer to this entity
- * @property refCategory  references to [Category] entities that refer to this entity
- * @property refAddress  references to [Address] entities that refer to this entity
  */
 @Entity
 @Table(name = "INFOBOOK", schema = "APPUSER")
@@ -37,30 +33,20 @@ data class InfoBook(
     var phoneNumber: String? = null,
 
     @get:Basic
-    @get:Column(name = "PHONE_TYPE", nullable = true)
-    var phoneType: BigInteger? = null,
-
-    @get:Basic
     @get:Column(name = "PERSON_ID", nullable = false, insertable = false, updatable = false)
     var personID: BigInteger? = null,
 
     @get:Basic
-    @get:Column(name = "CATEGORY_ID", nullable = false, insertable = false, updatable = false)
-    var categoryID: BigInteger? = null,
+    @get:Column(name = "PHONE_TYPE_ID", nullable = false, insertable = false, updatable = false)
+    var phoneTypeID: BigInteger? = null,
 
-    @get:Basic
-    @get:Column(name = "ADDRESS_ID", nullable = false, insertable = false, updatable = false)
-    var addressID: BigInteger? = null,
-
+    @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
     var refPerson: Person? = null,
 
+    @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID")
-    var refCategory: Category? = null,
-
-    @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
-    var refAddress: Address? = null,
+    @get:JoinColumn(name = "PHONE_TYPE_ID", referencedColumnName = "ID")
+    var refPhoneType: PhoneType? = null,
 )

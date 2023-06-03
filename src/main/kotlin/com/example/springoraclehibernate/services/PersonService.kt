@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.math.BigInteger
 
 interface PersonService {
-    fun getPeople() : List<Person>
+    fun getPeople(withTitles: Boolean = false) : List<Any>
     fun getPersonById(id: BigInteger) : Person?
     fun getPersonsByName(name: String) : List<Person>
     fun getPersonsBySurname(surname: String) : List<Person>
